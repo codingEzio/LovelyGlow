@@ -72,7 +72,9 @@ verify_bundle() {
 }
 
 build_candidate() {
-    /usr/bin/python3 "$ROOT_DIR/script/get_compact_font.py" --check
+    # Select and validate before replacing any previous candidate.
+    source "$ROOT_DIR/script/font_input.sh"
+    select_font "$ROOT_DIR" required
     /bin/rm -rf -- "$APP_BUNDLE"
     /bin/mkdir -p "$BUILD_DIR" "$APP_MACOS" "$APP_FONTS" "$APP_LICENSES"
 
@@ -89,7 +91,7 @@ build_candidate() {
     /bin/chmod +x "$APP_BINARY"
 
     "$ROOT_DIR/script/build_icon.sh" --output "$APP_RESOURCES/LovelyGlow.icns" >/dev/null
-    /bin/cp "$ROOT_DIR/Resources/Fonts/DeparturePixelZhCompact-Regular.ttf" "$APP_FONTS/"
+    copy_selected_font "$APP_FONTS/DeparturePixelZhCompact-Regular.ttf"
     /usr/bin/ditto "$ROOT_DIR/Resources/Licenses/" "$APP_LICENSES/"
 
     /usr/bin/plutil -create xml1 "$INFO_PLIST"

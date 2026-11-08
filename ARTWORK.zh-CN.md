@@ -10,8 +10,8 @@ Resources/PublicIcon.json 记录来源、用途与 SHA-256。这是通用打包�
 不授予商标或第三方权利。原创代码另采用 MIT；字体与声明保留既有许可，见
 LICENSE-SCOPE.md。
 
-私人 Resources/LovelyGlow.svg 原文件完整保留，但作者来源未明；Git
-导入本身不是充分证据。 源码候选排除该图；仅当私人原图不存在时，build_icon.sh
-才使用 PublicIcon.svg。 可在隔离的源码副本执行 bash
+如需使用自己的本地图标，请将 SVG 放在 Resources/LovelyGlow.svg。Git
+忽略此路径；请勿强制添加私人素材。build_icon.sh 优先使用该文件，缺失时
+使用 PublicIcon.svg。请自行确认所提供素材的权利。 可在隔离的源码副本执行 bash
 script/build_icon.sh，只转换图标，不构建、签名、启动或安装 App。
 完整签名打包另行验证；此次不授权发布，不改已安装 App。

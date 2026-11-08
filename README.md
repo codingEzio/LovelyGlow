@@ -6,7 +6,7 @@
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
-The optional Pixel typeface uses DeparturePixelZh Compact 0.1.1. It is not included here. Run `python3 script/get_compact_font.py` to download and verify the pinned release before packaging. See [dependencies](DEPENDENCIES.md) for notices and scope.
+The optional Pixel typeface uses DeparturePixelZh Compact 0.1.1. It is not included here. Run `python3 script/get_compact_font.py` to download and verify the pinned release before packaging. See [dependencies](DEPENDENCIES.md) for notices and scope. For a local font, set `LOVELYGLOW_PRIVATE_FONT` to its file path when building. Keep it outside the repository or under ignored `Local/`; it is validated before bundling; supply the correct notices for that font.
 
 A native macOS menu-bar accessory that draws one rim around the focused window.
 It uses SwiftUI, AppKit, Metal and window-system observations. It does not dim
@@ -19,7 +19,7 @@ Product and permission identity remain `Lovely Glow`, `LovelyGlow.app`,
 
 Run `./script/dev.sh --run` from the checkout; it builds an ad-hoc signed app without a signing certificate and runs it in the terminal. Press Control-C or use the app's Quit command to stop it. `./script/dev.sh --build` only builds and prints the bundle path; `just dev` and `just dev-build` are equivalents. Each build creates a new `Local/lovelyglow-dev.*` directory and reuses the `Local/swift-dev-build` SwiftPM cache. After stopping the app, remove unneeded bundle directories manually; remove the cache when no build is running to reclaim space. Failed build directories also remain.
 
-The development app uses `com.github.codingEzio.LovelyGlow.Development` and `~/Library/Application Support/com.github.codingEzio.LovelyGlow.Development/config.toml`, separate from the installed app. Settings persist between development runs; remove that directory manually only if you want to discard them. Use the permission control to request Accessibility; startup does not request it. If you enable launch at login, disable it in the development app before deleting its bundle. macOS may retain permission records after cleanup. The optional font is included only if downloaded and verified; the system font works without it. This path does not install or replace the signed product.
+The development app uses `com.github.codingEzio.LovelyGlow.Development` and `~/Library/Application Support/com.github.codingEzio.LovelyGlow.Development/config.toml`, separate from the installed app. Settings persist between development runs; remove that directory manually only if you want to discard them. Use the permission control to request Accessibility; startup does not request it. If you enable launch at login, disable it in the development app before deleting its bundle. macOS may retain permission records after cleanup. The optional font is included only if downloaded or supplied and verified; the system font works without it. This path does not install or replace the signed product.
 
 ## Source build and tests
 

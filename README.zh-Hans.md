@@ -6,7 +6,7 @@
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
-可选 Pixel 字体使用 DeparturePixelZh Compact 0.1.1，仓库不包含字体。打包前运行 `python3 script/get_compact_font.py` 下载并校验固定版本。声明与范围见[依赖说明](DEPENDENCIES.md)。
+可选 Pixel 字体使用 DeparturePixelZh Compact 0.1.1，仓库不包含字体。打包前运行 `python3 script/get_compact_font.py` 下载并校验固定版本。声明与范围见[依赖说明](DEPENDENCIES.md)。 如需本地字体，构建时将 `LOVELYGLOW_PRIVATE_FONT` 设为字体文件路径。请将字体保存在仓库外或被忽略的 `Local/` 中；打包前会校验字体，请提供该字体对应的声明。
 
 macOS 原生菜单栏工具，为当前活动窗口绘制一圈边光。它不遮暗内容、不排列窗口，也不会接管其他 App 的窗口。
 
@@ -32,7 +32,7 @@ python3 -m unittest discover -s script -p test_migrate_settings.py
 
 在仓库执行 `./script/dev.sh --run`，无需签名证书即可构建临时签名的 App 并在终端运行；按 Control-C 或使用 App 的退出命令停止。`./script/dev.sh --build` 只构建并输出路径；`just dev` 和 `just dev-build` 等效。每次构建会新建 `Local/lovelyglow-dev.*` 目录，并复用 `Local/swift-dev-build` SwiftPM 缓存。停止 App 后可手动删除不再需要的包目录；没有构建运行时可删除缓存以释放空间。失败的构建目录也会保留。
 
-开发版使用独立身份 `com.github.codingEzio.LovelyGlow.Development` 和设置 `~/Library/Application Support/com.github.codingEzio.LovelyGlow.Development/config.toml`。设置在开发运行之间保留；仅在需要丢弃时手动删除该目录。使用权限控件主动请求辅助功能；启动时不会请求。如开启登录启动，删除 App 前先在开发版中关闭。清理后 macOS 可能保留权限记录。可选字体仅在下载并校验后随包提供；没有字体时可使用系统字体。此流程不会安装或替换正式签名产品。
+开发版使用独立身份 `com.github.codingEzio.LovelyGlow.Development` 和设置 `~/Library/Application Support/com.github.codingEzio.LovelyGlow.Development/config.toml`。设置在开发运行之间保留；仅在需要丢弃时手动删除该目录。使用权限控件主动请求辅助功能；启动时不会请求。如开启登录启动，删除 App 前先在开发版中关闭。清理后 macOS 可能保留权限记录。可选字体仅在下载或自行提供并校验后随包提供；没有字体时可使用系统字体。此流程不会安装或替换正式签名产品。
 
 ## 签名安装与权限
 

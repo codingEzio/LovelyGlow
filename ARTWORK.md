@@ -12,10 +12,10 @@ contributors, retain the source receipt/link, and state changes. No trademark or
 third-party rights are granted. MIT covers original software separately; bundled
 fonts and notices retain their existing licenses (see LICENSE-SCOPE.md).
 
-The private original Resources/LovelyGlow.svg remains intact but its authorship
-is unresolved. A Git import alone is insufficient evidence. It is excluded from
-the source candidate; build_icon.sh uses PublicIcon.svg only when the private
-original is absent. Run bash script/build_icon.sh in an isolated source copy to
-render the icon without building, signing, launching or installing the app. Full
+To use your own icon locally, place its SVG at Resources/LovelyGlow.svg. Git
+ignores this path; do not force-add private artwork. build_icon.sh uses that
+file when present, or PublicIcon.svg when absent. You are responsible for the
+rights to any artwork you supply. Run bash script/build_icon.sh in an isolated
+source copy to render the icon without building, signing, launching or installing the app. Full
 signed packaging remains outside this source review. This does not authorize
 publication or change the installed app.

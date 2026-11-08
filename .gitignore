@@ -58,3 +58,6 @@ __pycache__/
 
 # Separately obtained pinned font; never stage the local input.
 /Resources/Fonts/DeparturePixelZhCompact-Regular.ttf
+
+# User-supplied local icon; do not stage it with normal Git operations.
+/Resources/LovelyGlow.svg

@@ -10,8 +10,8 @@ Resources/PublicIcon.json 記錄來源、用途與 SHA-256。這是通用打包�
 不授予商標或第三方權利。原創程式另採 MIT；字型與聲明保留既有授權，見
 LICENSE-SCOPE.md。
 
-私人 Resources/LovelyGlow.svg 原檔完整保留，但作者來源未解；Git
-匯入本身不是充分證據。 原始碼候選排除該圖；僅當私人原圖不存在時，build_icon.sh
-才使用 PublicIcon.svg。 可在隔離的原始碼副本執行 bash
+如需使用自己的本機圖示，請將 SVG 放在 Resources/LovelyGlow.svg。Git
+忽略此路徑；請勿強制加入私人素材。build_icon.sh 優先使用該檔案，缺少時
+使用 PublicIcon.svg。請自行確認所提供素材的權利。 可在隔離的原始碼副本執行 bash
 script/build_icon.sh，只轉出圖示，不建置、簽署、啟動或安裝 App。
 完整簽署打包另行驗證；此次不授權發布，不改已安裝 App。

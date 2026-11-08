@@ -18,11 +18,11 @@ cd "$root"
 binary="$(/usr/bin/swift build --configuration release --scratch-path "$root/Local/swift-dev-build" --show-bin-path)/LovelyGlow"
 cp "$binary" "$contents/MacOS/LovelyGlow"
 /usr/bin/ditto "$root/Resources/Licenses" "$contents/Resources/Licenses"
-font="$root/Resources/Fonts/DeparturePixelZhCompact-Regular.ttf"
-if [[ -e "$font" ]]; then
-    /usr/bin/python3 "$root/script/get_compact_font.py" --check
+source "$root/script/font_input.sh"
+select_font "$root" optional
+if [[ -n "$LOVELYGLOW_SELECTED_FONT" ]]; then
     mkdir "$contents/Resources/Fonts"
-    cp "$font" "$contents/Resources/Fonts/"
+    copy_selected_font "$contents/Resources/Fonts/DeparturePixelZhCompact-Regular.ttf"
 fi
 plist="$contents/Info.plist"
 /usr/bin/plutil -create xml1 "$plist"

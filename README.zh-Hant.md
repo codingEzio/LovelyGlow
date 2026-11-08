@@ -6,7 +6,7 @@
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
-選用 Pixel 字型使用 DeparturePixelZh Compact 0.1.1，儲存庫不含字型。打包前執行 `python3 script/get_compact_font.py` 下載並校驗固定版本。聲明與範圍見[相依說明](DEPENDENCIES.md)。
+選用 Pixel 字型使用 DeparturePixelZh Compact 0.1.1，儲存庫不含字型。打包前執行 `python3 script/get_compact_font.py` 下載並校驗固定版本。聲明與範圍見[相依說明](DEPENDENCIES.md)。 如需本機字型，建置時將 `LOVELYGLOW_PRIVATE_FONT` 設為字型檔路徑。請將字型保存在儲存庫外或被忽略的 `Local/` 中；打包前會驗證字型，請提供該字型對應的聲明。
 
 macOS 原生選單列工具，為目前作用中視窗繪製一圈邊光。它不調暗內容、不排列視窗，也不接管其他 App 的視窗。
 
@@ -32,7 +32,7 @@ python3 -m unittest discover -s script -p test_migrate_settings.py
 
 在儲存庫執行 `./script/dev.sh --run`，不需簽署憑證即可建置臨時簽署的 App 並在終端機執行；按 Control-C 或使用 App 的結束命令停止。`./script/dev.sh --build` 只建置並輸出路徑；`just dev` 和 `just dev-build` 等效。每次建置會新建 `Local/lovelyglow-dev.*` 目錄，並重用 `Local/swift-dev-build` SwiftPM 快取。停止 App 後可手動刪除不再需要的套件目錄；沒有建置執行時可刪除快取以釋放空間。失敗的建置目錄也會保留。
 
-開發版使用獨立身分 `com.github.codingEzio.LovelyGlow.Development` 和設定 `~/Library/Application Support/com.github.codingEzio.LovelyGlow.Development/config.toml`。設定會在開發執行之間保留；僅在需要捨棄時手動刪除該目錄。使用權限控制主動要求輔助使用權限；啟動時不會要求。如開啟登入啟動，刪除 App 前先在開發版關閉。清理後 macOS 可能保留權限記錄。選用字型僅在下載並校驗後隨包提供；沒有字型時可使用系統字型。此流程不會安裝或替換正式簽署產品。
+開發版使用獨立身分 `com.github.codingEzio.LovelyGlow.Development` 和設定 `~/Library/Application Support/com.github.codingEzio.LovelyGlow.Development/config.toml`。設定會在開發執行之間保留；僅在需要捨棄時手動刪除該目錄。使用權限控制主動要求輔助使用權限；啟動時不會要求。如開啟登入啟動，刪除 App 前先在開發版關閉。清理後 macOS 可能保留權限記錄。選用字型僅在下載或自行提供並校驗後隨包提供；沒有字型時可使用系統字型。此流程不會安裝或替換正式簽署產品。
 
 ## 簽署安裝與權限
 

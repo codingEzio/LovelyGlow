@@ -13,7 +13,14 @@
 This repository uses Compact 0.1.1 and excludes the font binary.
 Run `python3 script/get_compact_font.py` to obtain the pinned official desktop
 release; the ZIP and TTF hashes are verified before atomic publication. A source
-compile does not require it, but packaging refuses a missing or mismatched input.
+compile does not require it, but default packaging refuses a missing or mismatched input.
+An explicit `LOVELYGLOW_PRIVATE_FONT` file path overrides the pinned input for
+local packaging and development builds. CoreText validates the supplied file
+and the bundled copy; a missing or invalid explicit input fails. The override
+is not stored in Git. The included notices describe the pinned font, not an
+arbitrary replacement; supply appropriate notices for your own font before
+distributing a bundle. Without an override the pinned check remains mandatory
+for packaging; development builds may omit the font entirely.
 The 0.1.1 TTF SHA-256 is
 `3e75e623b1ba2c8d7eb52f2ac3ee71c3fbb5c4e0f1426bd34b3c1e071738288b`.
 The previous 0.1.0 TTF SHA-256 was
