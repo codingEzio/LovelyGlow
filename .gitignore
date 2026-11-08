@@ -3,9 +3,7 @@
 !.gitignore
 !Package.swift
 !justfile
-!AGENTS.md
 !README.md
-!IMPL.md
 !config/
 !config/**
 !Resources/
@@ -61,3 +59,7 @@ __pycache__/
 
 # User-supplied local icon; do not stage it with normal Git operations.
 /Resources/LovelyGlow.svg
+
+# Local development instructions and continuation records are private.
+/AGENTS.md
+/IMPL.md
