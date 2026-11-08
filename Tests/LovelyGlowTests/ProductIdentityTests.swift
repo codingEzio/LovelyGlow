@@ -3,6 +3,17 @@ import Testing
 @testable import LovelyGlowCore
 
 struct ProductIdentityTests {
+    @Test func developmentIdentityAndSettingsAreIsolated() {
+        let dev = OverlaySafety.developmentBundleID
+        #expect(OverlaySafety.runtimeBundleID(dev) == dev)
+        #expect(OverlaySafety.runtimeBundleID(nil) == OverlaySafety.ownBundleID)
+        #expect(OverlaySafety.runtimeBundleID("") == OverlaySafety.ownBundleID)
+        #expect(OverlaySafety.runtimeBundleID("example.unrelated") == OverlaySafety.ownBundleID)
+        #expect(OverlaySafety.settingsDirectory(bundleID: dev) == dev)
+        #expect(OverlaySafety.settingsDirectory(bundleID: nil) == OverlaySafety.ownBundleID)
+        #expect(OverlaySafety.settingsDirectory(bundleID: OverlaySafety.ownBundleID) == OverlaySafety.ownBundleID)
+    }
+
     @Test func productConfKeepsAccessibilityIdentity() throws {
         let text = try String(contentsOf: productConfURL(), encoding: .utf8)
         #expect(text.contains("BUNDLE_ID=\(OverlaySafety.ownBundleID)"))

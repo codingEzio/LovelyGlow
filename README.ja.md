@@ -28,6 +28,12 @@ python3 -m unittest discover -s script -p test_migrate_settings.py
 
 `just` は既存コマンドのショートカットです。コアテストの同等コマンドは `swift test --jobs 2 --scratch-path Local/swift-test` です。合成データを使い、アプリ起動、アクセシビリティ要求、インストール、ログイン項目の変更は行いません。`SWIFT_JOBS` の既定値は 2、`SWIFT_SCRATCH_PATH` は `Local/swift-test` です。不正なオプションは失敗します。
 
+### 開発版の実行
+
+`./script/dev.sh --run` は個人用証明書なしでアドホック署名したアプリをビルドし、ターミナルで実行します。Control-C またはアプリの終了操作で停止します。`./script/dev.sh --build` はビルドのみです。各ビルドは別の `Local/lovelyglow-dev.*` に出力し、`Local/swift-dev-build` のキャッシュを再利用します。停止後、不要な出力を手動で削除できます。キャッシュはビルド中でないときに削除できます。失敗時の出力も残ります。
+
+開発版の設定は `~/Library/Application Support/com.github.codingEzio.LovelyGlow.Development/config.toml` に保存され、製品版とは別です。設定を破棄するときだけそのディレクトリを削除してください。ログイン起動を有効にした場合は、アプリを削除する前に開発版で無効にしてください。macOS に権限記録が残る場合があります。任意のフォントがなくてもシステムフォントを使えます。
+
 ## 署名とインストール
 
 `config/product.conf` があれば優先し、なければ同じ製品識別子と空の署名情報を持つ `config/product.public.conf` を使います。配布候補は個人用設定を含みません。コンパイル済み実行ファイルだけでは署名済みアプリの証拠になりません。
@@ -39,7 +45,7 @@ just install
 
 これらは所有者が設定した証明書と署名識別子を必要とします。Stage は利用中のアプリを止めずに別候補を作ります。Install は既存アプリと署名要件が一致する場合のみ `~/Applications/LovelyGlow.app` を置き換えて起動します。アドホック署名や新しい bundle ID で回避しません。パッケージには iconutil／sips、任意の rsvg-convert、Python のアイコン代替経路を使います。
 
-アクセシビリティは Glow を有効にする操作で要求します。未許可でも通常の切り替えはウインドウシステムの境界を使えますが、ドラッグ追跡は弱くなります。ログイン起動は利用者が有効にした SMAppService のみです。HTTP サービス、LaunchAgent、Process Compose はありません。
+アクセシビリティは権限ボタンを操作して要求します。起動時には要求しません。未許可でも通常の切り替えはウインドウシステムの境界を使えますが、ドラッグ追跡は弱くなります。ログイン起動は利用者が有効にした SMAppService のみです。HTTP サービス、LaunchAgent、Process Compose はありません。
 
 ## データと移行
 

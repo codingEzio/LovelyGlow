@@ -5,6 +5,16 @@ public enum OverlaySafety {
     public static let shownAlpha: CGFloat = 0.999
     public static let hiddenAlpha: CGFloat = 0
     public static let ownBundleID = "com.alex.LovelyGlow"
+    public static let developmentBundleID = "com.github.codingEzio.LovelyGlow.Development"
+
+    public static func runtimeBundleID(_ bundleID: String?) -> String {
+        bundleID == developmentBundleID ? developmentBundleID : ownBundleID
+    }
+
+    public static func settingsDirectory(bundleID: String?) -> String {
+        bundleID == developmentBundleID ? developmentBundleID : ownBundleID
+    }
+
     public static let appBundleName = "LovelyGlow"
     public static let installParent = "~/Applications"
 

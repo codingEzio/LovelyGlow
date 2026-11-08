@@ -1,6 +1,12 @@
 default:
     @just --list
 
+dev:
+    ./script/dev.sh --run
+
+dev-build:
+    ./script/dev.sh --build
+
 run:
     ./script/build_and_run.sh
 

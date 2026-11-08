@@ -16,8 +16,10 @@ final class LocalStore {
     }
 
     static func defaultURL() -> URL {
-        FileManager.default.homeDirectoryForCurrentUser
-            .appendingPathComponent("Library/Application Support/com.alex.LovelyGlow", isDirectory: true)
+        let directory = OverlaySafety.settingsDirectory(bundleID: Bundle.main.bundleIdentifier)
+        return FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Library/Application Support", isDirectory: true)
+            .appendingPathComponent(directory, isDirectory: true)
             .appendingPathComponent("config.toml")
     }
 

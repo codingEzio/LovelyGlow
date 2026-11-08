@@ -2,7 +2,7 @@ import Foundation
 import LovelyGlowCore
 
 enum ProductIdentity {
-    static let bundleID = OverlaySafety.ownBundleID
+    static let bundleID = OverlaySafety.runtimeBundleID(Bundle.main.bundleIdentifier)
 
     static var displayName: String {
         if let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String,

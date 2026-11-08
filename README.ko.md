@@ -28,6 +28,12 @@ python3 -m unittest discover -s script -p test_migrate_settings.py
 
 `just`는 기존 명령의 바로가기입니다. 같은 코어 테스트는 `swift test --jobs 2 --scratch-path Local/swift-test`입니다. 합성 데이터를 사용하며 앱 실행, 손쉬운 사용 권한 요청, 설치, 로그인 항목 변경을 하지 않습니다. `SWIFT_JOBS` 기본값은 2, `SWIFT_SCRATCH_PATH`는 `Local/swift-test`입니다. 잘못된 옵션은 실패합니다.
 
+### 개발 앱 실행
+
+`./script/dev.sh --run`은 개인 인증서 없이 임시 서명한 앱을 빌드하고 터미널에서 실행합니다. Control-C 또는 앱의 종료 명령으로 멈춥니다. `./script/dev.sh --build`는 빌드만 합니다. 빌드할 때마다 별도의 `Local/lovelyglow-dev.*`에 출력하고 `Local/swift-dev-build` 캐시를 재사용합니다. 앱을 멈춘 뒤 불필요한 출력은 직접 삭제할 수 있으며, 빌드 중이 아닐 때 캐시도 삭제할 수 있습니다. 실패한 출력도 남습니다.
+
+개발 앱 설정은 제품과 별도인 `~/Library/Application Support/com.github.codingEzio.LovelyGlow.Development/config.toml`에 유지됩니다. 설정을 버릴 때만 해당 디렉터리를 삭제하세요. 로그인 시작을 켰다면 앱을 삭제하기 전에 개발 앱에서 끄세요. 정리 후에도 macOS에 권한 기록이 남을 수 있습니다. 선택 글꼴이 없어도 시스템 글꼴을 사용할 수 있습니다.
+
 ## 서명과 설치
 
 `config/product.conf`가 있으면 우선 사용합니다. 없으면 같은 제품 식별자와 빈 서명 값을 가진 `config/product.public.conf`를 읽습니다. 소스 후보는 개인 설정을 포함하지 않습니다. 실행 파일 컴파일만으로 서명된 앱이 검증되지는 않습니다.
@@ -39,7 +45,7 @@ just install
 
 이 명령에는 소유자가 설정한 인증서와 서명 식별자가 필요합니다. Stage는 사용 중인 앱을 멈추지 않고 별도 후보를 만듭니다. Install은 기존 서명 요구사항과 일치할 때만 `~/Applications/LovelyGlow.app`을 교체하고 실행합니다. 임시 서명이나 새 bundle ID로 우회하지 않습니다. 패키징에는 iconutil／sips, 선택적 rsvg-convert, Python 아이콘 대체 경로를 사용합니다.
 
-Glow를 켜는 동작에서 손쉬운 사용 권한을 요청합니다. 권한이 없어도 일반 앱 전환은 창 시스템 경계를 사용하지만 드래그 추적은 약해집니다. 로그인 시작은 사용자가 켠 SMAppService만 사용합니다. HTTP 서비스, LaunchAgent, Process Compose는 없습니다.
+권한 버튼을 눌러 손쉬운 사용 권한을 요청합니다. 시작할 때는 요청하지 않습니다. 권한이 없어도 일반 앱 전환은 창 시스템 경계를 사용하지만 드래그 추적은 약해집니다. 로그인 시작은 사용자가 켠 SMAppService만 사용합니다. HTTP 서비스, LaunchAgent, Process Compose는 없습니다.
 
 ## 데이터와 이전
 

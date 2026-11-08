@@ -28,6 +28,12 @@ python3 -m unittest discover -s script -p test_migrate_settings.py
 
 `just` 只提供现有命令快捷方式；等效核心测试为 `swift test --jobs 2 --scratch-path Local/swift-test`。测试使用合成数据，不启动 App、不请求辅助功能权限、不安装或更改登录项。`SWIFT_JOBS` 默认 2；`SWIFT_SCRATCH_PATH` 默认 `Local/swift-test`。无效参数明确失败。
 
+### 运行开发版
+
+在仓库执行 `./script/dev.sh --run`，无需签名证书即可构建临时签名的 App 并在终端运行；按 Control-C 或使用 App 的退出命令停止。`./script/dev.sh --build` 只构建并输出路径；`just dev` 和 `just dev-build` 等效。每次构建会新建 `Local/lovelyglow-dev.*` 目录，并复用 `Local/swift-dev-build` SwiftPM 缓存。停止 App 后可手动删除不再需要的包目录；没有构建运行时可删除缓存以释放空间。失败的构建目录也会保留。
+
+开发版使用独立身份 `com.github.codingEzio.LovelyGlow.Development` 和设置 `~/Library/Application Support/com.github.codingEzio.LovelyGlow.Development/config.toml`。设置在开发运行之间保留；仅在需要丢弃时手动删除该目录。使用权限控件主动请求辅助功能；启动时不会请求。如开启登录启动，删除 App 前先在开发版中关闭。清理后 macOS 可能保留权限记录。可选字体仅在下载并校验后随包提供；没有字体时可使用系统字体。此流程不会安装或替换正式签名产品。
+
 ## 签名安装与权限
 
 本机签名配置 `config/product.conf` 优先；没有时使用保留同一产品身份、无签名身份的 `config/product.public.conf`。此仓库不包含私人配置。编译成功不等于已有可运行的签名 App。
@@ -39,7 +45,7 @@ just install
 
 这些命令需要你配置的本机证书和签名身份。Stage 构建独立候选，不停止日用 App；Install 核对签章要求，才替换并启动 `~/Applications/LovelyGlow.app`。不会改成临时签名或新 bundle ID 来绕过检查。打包使用原生 iconutil／sips、可选 rsvg-convert 与 Python 图标后备路径。
 
-启用 Glow 时才请求辅助功能权限。没有权限时，普通切换仍可使用窗口系统边界，但拖动跟随较弱。登录启动只由用户明确开启的 SMAppService 管理；没有 HTTP 服务、LaunchAgent 或 Process Compose。
+使用权限控件主动请求辅助功能权限；启动时不会请求。没有权限时，普通切换仍可使用窗口系统边界，但拖动跟随较弱。登录启动只由用户明确开启的 SMAppService 管理；没有 HTTP 服务、LaunchAgent 或 Process Compose。
 
 ## 数据与移转
 

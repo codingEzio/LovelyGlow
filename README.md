@@ -15,6 +15,12 @@ content, tile windows or attach to another app's window.
 Product and permission identity remain `Lovely Glow`, `LovelyGlow.app`,
 `LovelyGlow` and `com.alex.LovelyGlow`.
 
+### Run a development app
+
+Run `./script/dev.sh --run` from the checkout; it builds an ad-hoc signed app without a signing certificate and runs it in the terminal. Press Control-C or use the app's Quit command to stop it. `./script/dev.sh --build` only builds and prints the bundle path; `just dev` and `just dev-build` are equivalents. Each build creates a new `Local/lovelyglow-dev.*` directory and reuses the `Local/swift-dev-build` SwiftPM cache. After stopping the app, remove unneeded bundle directories manually; remove the cache when no build is running to reclaim space. Failed build directories also remain.
+
+The development app uses `com.github.codingEzio.LovelyGlow.Development` and `~/Library/Application Support/com.github.codingEzio.LovelyGlow.Development/config.toml`, separate from the installed app. Settings persist between development runs; remove that directory manually only if you want to discard them. Use the permission control to request Accessibility; startup does not request it. If you enable launch at login, disable it in the development app before deleting its bundle. macOS may retain permission records after cleanup. The optional font is included only if downloaded and verified; the system font works without it. This path does not install or replace the signed product.
+
 ## Source build and tests
 
 Requires macOS 27+, an Apple Silicon Mac with a compatible Xcode/Swift 6.2+
@@ -66,7 +72,7 @@ either file. Its Python 3 migration check is
 `python3 -m unittest discover -s script -p test_migrate_settings.py`.
 The legacy file remains recoverable; it is no longer a settings writer.
 
-Enable Glow requests Accessibility once. Without access, ordinary app switches
+Use the permission control to request Accessibility; startup does not request it. Without access, ordinary app switches
 use window-system bounds and live drag-follow is weaker. Settings use a native
 menu-bar popover; Quit stops the app. Login start uses `SMAppService` only when
 the user enables it. No web service, LaunchAgent or Process Compose is needed.

@@ -28,6 +28,12 @@ python3 -m unittest discover -s script -p test_migrate_settings.py
 
 `just` solo ofrece atajos existentes. El equivalente para el núcleo es `swift test --jobs 2 --scratch-path Local/swift-test`. Las pruebas usan datos sintéticos; no abren la aplicación, piden Accesibilidad, instalan ni cambian el inicio de sesión. `SWIFT_JOBS` vale 2 por defecto y `SWIFT_SCRATCH_PATH`, `Local/swift-test`. Las opciones inválidas fallan.
 
+### Ejecutar la aplicación de desarrollo
+
+`./script/dev.sh --run` compila una aplicación con firma ad hoc sin certificado privado y la ejecuta en la terminal. Deténla con Control-C o con el comando de salida de la aplicación. `./script/dev.sh --build` solo compila. Cada compilación crea un directorio `Local/lovelyglow-dev.*` distinto y reutiliza la caché `Local/swift-dev-build`. Tras detener la aplicación, elimina manualmente los resultados que no necesites; elimina la caché cuando no haya ninguna compilación en curso. También se conservan los resultados fallidos.
+
+La configuración de desarrollo persiste en `~/Library/Application Support/com.github.codingEzio.LovelyGlow.Development/config.toml`, separada del producto. Elimina ese directorio solo si quieres descartarla. Si activas el inicio de sesión, desactívalo en la aplicación de desarrollo antes de borrar el paquete. macOS puede conservar registros de permisos. Sin la fuente opcional puedes usar la fuente del sistema.
+
 ## Firma e instalación
 
 `config/product.conf` tiene prioridad cuando existe. Si falta, se usa `config/product.public.conf`, con la misma identidad de producto y sin identidad de firma. El candidato de código excluye la configuración privada. Un ejecutable compilado no demuestra que haya una aplicación firmada aceptada.
@@ -39,7 +45,7 @@ just install
 
 Estos comandos requieren tu certificado e identidad de firma configurados. Stage crea otro candidato sin parar la aplicación diaria. Install solo reemplaza y abre `~/Applications/LovelyGlow.app` cuando coincide el requisito de firma existente. No usa una firma temporal ni otro bundle ID para evitar la comprobación. El empaquetado usa iconutil／sips, rsvg-convert opcional y una ruta alternativa de iconos con Python.
 
-Accesibilidad se solicita al activar Glow. Sin permiso, los cambios normales aún usan límites del sistema de ventanas, pero el seguimiento al arrastrar es más débil. El inicio de sesión usa SMAppService solo si lo activas. No necesita HTTP, LaunchAgent ni Process Compose.
+Usa el control de permisos para solicitar Accesibilidad; el inicio no la solicita. Sin permiso, los cambios normales aún usan límites del sistema de ventanas, pero el seguimiento al arrastrar es más débil. El inicio de sesión usa SMAppService solo si lo activas. No necesita HTTP, LaunchAgent ni Process Compose.
 
 ## Datos y migración
 
