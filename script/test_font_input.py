@@ -89,6 +89,15 @@ class FontInputTests(unittest.TestCase):
         self.assertEqual((self.root / 'output.ttf').read_bytes(), configured.read_bytes())
         self.assertEqual((self.root / 'Licenses/PrivateFont/notice.txt').read_text(), 'Synthetic notice')
         shutil.rmtree(self.root / 'Licenses')
+        other_notices = local / 'other-notices'
+        other_notices.mkdir()
+        (other_notices / 'other.txt').write_text('Override notice')
+        self.env['LOVELYGLOW_PRIVATE_FONT_NOTICES'] = str(other_notices)
+        result = self.run_selection()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.root / 'Licenses/PrivateFont/other.txt').read_text(), 'Override notice')
+        self.env.pop('LOVELYGLOW_PRIVATE_FONT_NOTICES')
+        shutil.rmtree(self.root / 'Licenses')
         # An explicit font must not inherit notices belonging to another font.
         self.env['LOVELYGLOW_PRIVATE_FONT'] = str(configured)
         result = self.run_selection()
