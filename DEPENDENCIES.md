@@ -17,9 +17,11 @@ compile does not require it, but default packaging refuses a missing or mismatch
 An explicit `LOVELYGLOW_PRIVATE_FONT` file path overrides the pinned input for
 local packaging and development builds. CoreText validates the supplied file
 and the bundled copy; a missing or invalid explicit input fails. The override
-is not stored in Git. The included notices describe the pinned font, not an
-arbitrary replacement; supply appropriate notices for your own font before
-distributing a bundle. Without an override the pinned check remains mandatory
+is not stored in Git. The public font notices are not bundled with an override.
+Optionally set `LOVELYGLOW_PRIVATE_FONT_NOTICES` to a readable, nonempty directory
+of notices; an invalid explicit directory fails. Without it the bundle states
+that no notices were supplied. File checks do not establish rights or notice
+completeness. Without an override the pinned check remains mandatory
 for packaging; development builds may omit the font entirely.
 The 0.1.1 TTF SHA-256 is
 `3e75e623b1ba2c8d7eb52f2ac3ee71c3fbb5c4e0f1426bd34b3c1e071738288b`.

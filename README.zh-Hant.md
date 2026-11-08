@@ -6,7 +6,7 @@
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
-選用 Pixel 字型使用 DeparturePixelZh Compact 0.1.1，儲存庫不含字型。打包前執行 `python3 script/get_compact_font.py` 下載並校驗固定版本。聲明與範圍見[相依說明](DEPENDENCIES.md)。 如需本機字型，建置時將 `LOVELYGLOW_PRIVATE_FONT` 設為字型檔路徑。請將字型保存在儲存庫外或被忽略的 `Local/` 中；打包前會驗證字型，請提供該字型對應的聲明。
+選用 Pixel 字型使用 DeparturePixelZh Compact 0.1.1，儲存庫不含字型。打包前執行 `python3 script/get_compact_font.py` 下載並校驗固定版本。聲明與範圍見[相依說明](DEPENDENCIES.md)。 如需本機字型，建置時將 `LOVELYGLOW_PRIVATE_FONT` 設為字型檔路徑。請將字型保存在儲存庫外或被忽略的 `Local/` 中；打包前會驗證字型，可將 `LOVELYGLOW_PRIVATE_FONT_NOTICES` 設為對應聲明目錄；未提供時，套件會標明沒有提供聲明。
 
 macOS 原生選單列工具，為目前作用中視窗繪製一圈邊光。它不調暗內容、不排列視窗，也不接管其他 App 的視窗。
 

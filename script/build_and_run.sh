@@ -54,13 +54,21 @@ verify_bundle() {
         echo "Compact font is missing: $bundle/Contents/Resources/Fonts/DeparturePixelZhCompact-Regular.ttf" >&2
         return 1
     }
-    [[ -f "$bundle/Contents/Resources/Licenses/OFL.txt" &&
-        -f "$bundle/Contents/Resources/Licenses/NOTICE.md" &&
-        -f "$bundle/Contents/Resources/Licenses/provenance.json" &&
-        -d "$bundle/Contents/Resources/Licenses/licenses" ]] || {
-        echo "Compact font notices are incomplete: $bundle" >&2
-        return 1
-    }
+    if [[ "$LOVELYGLOW_USING_PRIVATE_FONT" == 1 ]]; then
+        [[ -s "$bundle/Contents/Resources/Licenses/LOCAL-FONT.txt" ]] || {
+            echo "Local font status is missing." >&2; return 1;
+        }
+        if [[ -n "$LOVELYGLOW_SELECTED_NOTICES" ]]; then
+            /usr/bin/python3 "$ROOT_DIR/script/validate_font_notices.py" "$bundle/Contents/Resources/Licenses/PrivateFont" || return 1
+        fi
+    else
+        [[ -f "$bundle/Contents/Resources/Licenses/OFL.txt" &&
+            -f "$bundle/Contents/Resources/Licenses/NOTICE.md" &&
+            -f "$bundle/Contents/Resources/Licenses/provenance.json" &&
+            -d "$bundle/Contents/Resources/Licenses/licenses" ]] || {
+            echo "Compact font notices are incomplete: $bundle" >&2; return 1;
+        }
+    fi
     [[ "$(/usr/bin/plutil -extract CFBundleIdentifier raw "$bundle/Contents/Info.plist")" == "$BUNDLE_ID" ]] || {
         echo "Bundle identifier mismatch: $bundle" >&2
         return 1
@@ -92,7 +100,7 @@ build_candidate() {
 
     "$ROOT_DIR/script/build_icon.sh" --output "$APP_RESOURCES/LovelyGlow.icns" >/dev/null
     copy_selected_font "$APP_FONTS/DeparturePixelZhCompact-Regular.ttf"
-    /usr/bin/ditto "$ROOT_DIR/Resources/Licenses/" "$APP_LICENSES/"
+    copy_font_notices "$APP_LICENSES"
 
     /usr/bin/plutil -create xml1 "$INFO_PLIST"
     /usr/bin/plutil -insert CFBundleDisplayName -string "$DISPLAY_NAME" "$INFO_PLIST"

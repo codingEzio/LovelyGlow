@@ -17,9 +17,9 @@ cd "$root"
 /usr/bin/swift build --jobs 2 --configuration release --scratch-path "$root/Local/swift-dev-build" --product LovelyGlow
 binary="$(/usr/bin/swift build --configuration release --scratch-path "$root/Local/swift-dev-build" --show-bin-path)/LovelyGlow"
 cp "$binary" "$contents/MacOS/LovelyGlow"
-/usr/bin/ditto "$root/Resources/Licenses" "$contents/Resources/Licenses"
 source "$root/script/font_input.sh"
 select_font "$root" optional
+copy_font_notices "$contents/Resources/Licenses"
 if [[ -n "$LOVELYGLOW_SELECTED_FONT" ]]; then
     mkdir "$contents/Resources/Fonts"
     copy_selected_font "$contents/Resources/Fonts/DeparturePixelZhCompact-Regular.ttf"
