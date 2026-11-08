@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "file": "Resources/PublicIcon.svg",
+  "sha256": "3cf1295678206aa51a11b923a86a4f64ba704918e5d0da03565d36f2faea6c21",
+  "createdOn": "2026-10-22",
+  "source": "Deterministic SVG written for this source package; basic window rectangles, no imported artwork or image generation.",
+  "creatorCredit": "Lovely Glow project contributors",
+  "license": "CC-BY-4.0-to-extent-of-owned-rights",
+  "role": "Generic public-source packaging placeholder; not the installed product identity.",
+  "visualReview": "Simple grayscale geometry inspected; no external resources, embedded images, metadata or third-party marks."
+}

@@ -1,0 +1,60 @@
+# Keep project source and task entry points explicit.
+*
+!.gitignore
+!Package.swift
+!justfile
+!AGENTS.md
+!README.md
+!IMPL.md
+!config/
+!config/**
+!Resources/
+!Resources/**
+!Resources/Fonts/
+!Resources/Fonts/**
+!Resources/Licenses/
+!Resources/Licenses/**
+!Resources/Licenses/licenses/
+!Resources/Licenses/licenses/**
+!Sources/
+!Sources/LovelyGlowCore/
+!Sources/LovelyGlowCore/**
+!Sources/LovelyGlow/
+!Sources/LovelyGlow/**
+!Tests/
+!Tests/LovelyGlowTests/
+!Tests/LovelyGlowTests/**
+!script/
+!script/**
+
+# Local source-review entry points; private Local/ remains ignored.
+!LICENSE
+!LICENSE-SCOPE.md
+!DEPENDENCIES.md
+!PUBLICATION.md
+
+# New source-only clones must not stage a local signing configuration.
+config/product.conf
+
+# Source-package artwork documentation.
+!ARTWORK.md
+!ARTWORK.zh-TW.md
+!ARTWORK.zh-CN.md
+
+# Python maintenance bytecode is generated locally.
+__pycache__/
+
+# Reviewed product README languages.
+!README.zh-Hans.md
+!README.zh-Hant.md
+!README.ja.md
+!README.ko.md
+!README.es.md
+
+# Approved documentation mark and its separate artwork grant.
+!ARTWORK-LICENSE.md
+!docs/
+!docs/icon.svg
+
+# Separately obtained pinned font; never stage the local input.
+/Resources/Fonts/DeparturePixelZhCompact-Regular.ttf

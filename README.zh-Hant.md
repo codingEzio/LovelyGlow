@@ -1,0 +1,54 @@
+<p align="center">
+  <img src="docs/icon.svg" width="120" height="120" alt="Lovely Glow">
+</p>
+
+# Lovely Glow
+
+[English](README.md) · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
+
+選用 Pixel 字型使用 DeparturePixelZh Compact 0.1.1，儲存庫不含字型。打包前執行 `python3 script/get_compact_font.py` 下載並校驗固定版本。聲明與範圍見[相依說明](DEPENDENCIES.md)。
+
+macOS 原生選單列工具，為目前作用中視窗繪製一圈邊光。它不調暗內容、不排列視窗，也不接管其他 App 的視窗。
+
+## 使用與行為
+
+啟用 Glow 後跟隨前景 App 的目前視窗。小型無標題輔助視窗預設排除，可在 More 中明確開啟。彈出自己的選單、Cmd+Tab 或 Spotlight 時保留原視窗；全螢幕、Mission Control 與填滿工作區的視窗會隱藏邊光。邊光不接收點擊，也不搶鍵盤焦點。
+
+選單列彈出面板可直接調整色彩、尺寸、動態、出現方式與字型。System 是預設字型，隨附 Pixel Compact 可選並儲存。Instant 與 Seamless 共用一個覆蓋視窗；更新跟隨目前螢幕節奏。核心測試不證明實際手勢、螢幕流暢度或像素對齊。Stage Manager、自訂視窗形狀與未來 macOS 的空間偵測仍有限制。
+
+## 原始碼建置
+
+需要 Apple Silicon、macOS 27+，以及選定的相容 Xcode／Swift 6.2+ SDK。沒有下載的 Swift 套件，也不依賴相鄰儲存庫。先完成 Apple 官方的 Xcode 安裝與授權確認。
+
+```sh
+swift build --jobs 2 --scratch-path Local/swift-build --product LovelyGlow
+just test
+python3 -m unittest discover -s script -p test_migrate_settings.py
+```
+
+`just` 只提供既有指令捷徑；等效核心測試是 `swift test --jobs 2 --scratch-path Local/swift-test`。測試使用合成資料，不啟動 App、不要求輔助使用權限，也不安裝或變更登入項目。`SWIFT_JOBS` 預設 2；`SWIFT_SCRATCH_PATH` 預設 `Local/swift-test`。無效參數明確失敗。
+
+## 簽署安裝與權限
+
+本機簽署設定 `config/product.conf` 優先；沒有時使用保留相同產品身分、沒有簽署身分的 `config/product.public.conf`。此儲存庫不含私人設定。編譯成功不等於已有可執行的簽署 App。
+
+```sh
+just stage
+just install
+```
+
+這些指令需要你設定的本機憑證與簽署身分。Stage 建立獨立候選，不停止日用 App；Install 核對簽章要求，才替換並啟動 `~/Applications/LovelyGlow.app`。不會改用臨時簽章或新 bundle ID 繞過檢查。打包使用原生 iconutil／sips、選用 rsvg-convert 與 Python 圖示備援路徑。
+
+啟用 Glow 時才要求輔助使用權限。沒有權限時，一般切換仍可使用視窗系統邊界，但拖曳跟隨較弱。登入啟動只由使用者明確開啟的 SMAppService 管理；沒有 HTTP 服務、LaunchAgent 或 Process Compose。
+
+## 資料與移轉
+
+0.7.9／33 起唯一活動設定為 `~/Library/Application Support/com.alex.LovelyGlow/config.toml`，不將執行設定寫回程式碼目錄。安裝器從舊簽署 App 的中繼資料讀取原路徑，在停止舊程序後逐位元組複製並讀回。目標已有不同內容時中止，不覆寫任一檔案；舊檔保留供復原。新安裝直接使用 Application Support。建置輸出留在忽略的 Local／dist，與使用者設定分開。
+
+## 授權與來源審閱
+
+README 圖示是 codingEzio 創作的獨立文件 SVG，採用 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)。此授權不改變產品圖示、字型或第三方權利。
+
+自有軟體採 [MIT](LICENSE)。選用字型保留[完整 OFL 與元件聲明](Resources/Licenses/NOTICE.md)。[LICENSE-SCOPE.md](LICENSE-SCOPE.md) 區分軟體、字型與圖稿。此儲存庫排除權利未證的原始圖示，使用明確列名的原創 CC BY 4.0 幾何佔位圖；私人打包仍保留原圖，不代表可公開它。
+
+來源歷史及驗證範圍見 [PUBLICATION.md](PUBLICATION.md)。
