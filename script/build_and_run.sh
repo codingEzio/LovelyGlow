@@ -6,8 +6,10 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # shellcheck disable=SC1091
 source "$ROOT_DIR/script/product_config.sh"
 load_product_config "$ROOT_DIR/config/product.conf"
+# shellcheck disable=SC1091
+source "$ROOT_DIR/script/package_lock.sh"
 
-BUILD_DIR="/private/tmp/delete_after_use_lovelyglow_build"
+BUILD_DIR="$ROOT_DIR/Local/build-scratch"
 DIST_DIR="$ROOT_DIR/dist"
 APP_BUNDLE="$DIST_DIR/$APP_BUNDLE_NAME.app"
 APP_CONTENTS="$APP_BUNDLE/Contents"
@@ -86,9 +88,7 @@ build_candidate() {
     /bin/cp "$build_binary" "$APP_BINARY"
     /bin/chmod +x "$APP_BINARY"
 
-    local icon_file
-    icon_file="$("$ROOT_DIR/script/build_icon.sh")"
-    /bin/cp "$icon_file" "$APP_RESOURCES/LovelyGlow.icns"
+    "$ROOT_DIR/script/build_icon.sh" --output "$APP_RESOURCES/LovelyGlow.icns" >/dev/null
     /bin/cp "$ROOT_DIR/Resources/Fonts/DeparturePixelZhCompact-Regular.ttf" "$APP_FONTS/"
     /usr/bin/ditto "$ROOT_DIR/Resources/Licenses/" "$APP_LICENSES/"
 
@@ -121,6 +121,29 @@ open_candidate_if_needed() {
 }
 
 case "$MODE" in
+    --stage|stage|--package|package|run|--verify|verify) ;;
+    *) usage; exit 2 ;;
+esac
+
+if [[ -n "${LOVELYGLOW_GUARD_FD:-}" && "${LOVELYGLOW_GUARD_ROOT:-}" != "$ROOT_DIR" ]]; then
+    unset LOVELYGLOW_GUARD_FD LOVELYGLOW_GUARD_TOKEN LOVELYGLOW_GUARD_OWNER_PID LOVELYGLOW_GUARD_ROOT
+fi
+if [[ -z "${LOVELYGLOW_GUARD_FD:-}" ]]; then
+    exec /usr/bin/python3 "$ROOT_DIR/script/package_guard.py" "$ROOT_DIR" /bin/bash "$0" "$@"
+fi
+acquire_package_lock
+cleanup_package_lock() {
+    local status=$?
+    trap - EXIT HUP INT TERM
+    release_package_lock || { (( status != 0 )) || status=1; }
+    exit "$status"
+}
+trap cleanup_package_lock EXIT
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+case "$MODE" in
     --stage|stage|--package|package)
         build_candidate
         echo "Staged $APP_BUNDLE"
@@ -138,9 +161,5 @@ case "$MODE" in
             exit 1
         }
         echo "Verified running $APP_BUNDLE"
-        ;;
-    *)
-        usage
-        exit 2
         ;;
 esac

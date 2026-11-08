@@ -7,12 +7,39 @@ SOURCE="$ROOT_DIR/Resources/LovelyGlow.svg"
 if [[ ! -f "$SOURCE" ]]; then
     SOURCE="$ROOT_DIR/Resources/PublicIcon.svg"
 fi
-ICON_DIR="/private/tmp/delete_after_use_lovelyglow_icon"
+DESTINATION=""
+if [[ $# -eq 2 && "$1" == "--output" && -n "$2" ]]; then
+    DESTINATION="$2"
+elif [[ $# -ne 0 ]]; then
+    echo "usage: $0 [--output NEW_ICON_PATH]" >&2
+    exit 2
+fi
+
+# Each invocation owns its own workspace. Standalone mode retains the resulting
+# icon for its caller; --output saves it at the requested new destination.
+ICON_DIR="$(/usr/bin/mktemp -d "${TMPDIR:-/tmp}/lovelyglow-icon.XXXXXXXX")"
 ICONSET_DIR="$ICON_DIR/LovelyGlow.iconset"
 OUTPUT="$ICON_DIR/LovelyGlow.icns"
+OUTPUT_STAGING=""
 
-rm -rf "$ICON_DIR"
-mkdir -p "$ICONSET_DIR"
+cleanup() {
+    local status=$?
+    trap - EXIT HUP INT TERM
+    if [[ -n "$OUTPUT_STAGING" ]]; then
+        /bin/rm -f -- "$OUTPUT_STAGING"
+    fi
+    if (( status != 0 )) || [[ -n "$DESTINATION" ]]; then
+        /bin/rm -rf -- "$ICON_DIR"
+    else
+        /bin/rm -rf -- "$ICONSET_DIR"
+    fi
+    exit "$status"
+}
+trap cleanup EXIT
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
+/bin/mkdir -p "$ICONSET_DIR"
 
 render() {
     local size="$1"
@@ -64,4 +91,18 @@ body = b"".join(chunks)
 output.write_bytes(b"icns" + struct.pack(">I", len(body) + 8) + body)
 PY
 fi
-printf '%s\n' "$OUTPUT"
+if [[ -n "$DESTINATION" ]]; then
+    # Stage beside the destination, then atomically link without overwriting an
+    # existing path. The parent owns the staging file even when linking fails.
+    OUTPUT_STAGING="$(/usr/bin/mktemp "$(/usr/bin/dirname "$DESTINATION")/.lovelyglow-icon.XXXXXXXX")"
+    /bin/cp "$OUTPUT" "$OUTPUT_STAGING"
+    /bin/chmod "$(/usr/bin/stat -f '%Lp' "$OUTPUT")" "$OUTPUT_STAGING"
+    /usr/bin/python3 - "$OUTPUT_STAGING" "$DESTINATION" <<'PY'
+import os
+import sys
+os.link(sys.argv[1], sys.argv[2])
+PY
+    printf '%s\n' "$DESTINATION"
+else
+    printf '%s\n' "$OUTPUT"
+fi
