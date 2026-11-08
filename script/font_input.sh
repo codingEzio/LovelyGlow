@@ -6,14 +6,15 @@ select_font() {
     LOVELYGLOW_SELECTED_FONT=""
     LOVELYGLOW_SELECTED_NOTICES=""
     LOVELYGLOW_USING_PRIVATE_FONT=0
-    if [[ ${LOVELYGLOW_PRIVATE_FONT_NOTICES+x} && ! ${LOVELYGLOW_PRIVATE_FONT+x} ]]; then
-        echo 'Private font notices require a private font.' >&2; return 1
-    fi
-    if [[ ${LOVELYGLOW_PRIVATE_FONT+x} ]]; then
-        [[ -n "$LOVELYGLOW_PRIVATE_FONT" ]] || { echo 'Private font path is empty.' >&2; return 1; }
+    local selection rest configured_font configured_notices
+    selection="$(/usr/bin/python3 "$root/script/font_config.py" "$root")" || return 1
+    configured_font="${selection%%$'\n'*}"
+    rest="${selection#*$'\n'}"
+    configured_notices="${rest%%$'\n'*}"
+    if [[ -n "$configured_font" ]]; then
         LOVELYGLOW_USING_PRIVATE_FONT=1
-        LOVELYGLOW_SELECTED_FONT="$LOVELYGLOW_PRIVATE_FONT"
-        [[ "$LOVELYGLOW_SELECTED_FONT" = /* ]] || LOVELYGLOW_SELECTED_FONT="$PWD/$LOVELYGLOW_SELECTED_FONT"
+        LOVELYGLOW_SELECTED_FONT="$configured_font"
+        LOVELYGLOW_SELECTED_NOTICES="$configured_notices"
     else
         local pinned="$root/Resources/Fonts/DeparturePixelZhCompact-Regular.ttf"
         if [[ "$requirement" == optional && ! -e "$pinned" && ! -L "$pinned" ]]; then
@@ -23,12 +24,7 @@ select_font() {
         LOVELYGLOW_SELECTED_FONT="$pinned"
     fi
     /usr/bin/swift "$root/script/validate_font.swift" "$LOVELYGLOW_SELECTED_FONT" || return 1
-    if [[ ${LOVELYGLOW_PRIVATE_FONT_NOTICES+x} ]]; then
-        [[ "$LOVELYGLOW_USING_PRIVATE_FONT" == 1 && -n "$LOVELYGLOW_PRIVATE_FONT_NOTICES" ]] || {
-            echo 'Private font notices require a private font and a nonempty directory path.' >&2; return 1;
-        }
-        LOVELYGLOW_SELECTED_NOTICES="$LOVELYGLOW_PRIVATE_FONT_NOTICES"
-        [[ "$LOVELYGLOW_SELECTED_NOTICES" = /* ]] || LOVELYGLOW_SELECTED_NOTICES="$PWD/$LOVELYGLOW_SELECTED_NOTICES"
+    if [[ -n "$LOVELYGLOW_SELECTED_NOTICES" ]]; then
         /usr/bin/python3 "$root/script/validate_font_notices.py" "$LOVELYGLOW_SELECTED_NOTICES" || return 1
     fi
 }

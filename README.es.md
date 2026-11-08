@@ -6,7 +6,7 @@
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
-La tipografía Pixel opcional usa DeparturePixelZh Compact 0.1.1 y no está incluida. Antes de empaquetar, ejecuta `python3 script/get_compact_font.py` para descargar y verificar la versión fijada. Consulta [dependencias](DEPENDENCIES.md). Para usar una fuente local, define `LOVELYGLOW_PRIVATE_FONT` con su ruta al compilar. Guárdala fuera del repositorio o en `Local/`, que Git ignora; se valida antes de incluirla; puedes indicar el directorio de sus avisos en `LOVELYGLOW_PRIVATE_FONT_NOTICES`. Si lo omites, el paquete indicará que no se proporcionaron avisos.
+La tipografía Pixel opcional usa DeparturePixelZh Compact 0.1.1 y no está incluida. Antes de empaquetar, ejecuta `python3 script/get_compact_font.py` para descargar y verificar la versión fijada. Consulta [dependencias](DEPENDENCIES.md). Para usar una fuente local, define `LOVELYGLOW_PRIVATE_FONT` con su ruta al compilar. Guárdala fuera del repositorio o en `Local/`, que Git ignora; se valida antes de incluirla; puedes indicar el directorio de sus avisos en `LOVELYGLOW_PRIVATE_FONT_NOTICES`. Si lo omites, el paquete indicará que no se proporcionaron avisos. Para conservar la selección, usa `Local/font-input.json`, ignorado por Git; consulta [dependencias](DEPENDENCIES.md).
 
 Una aplicación nativa de barra de menús para macOS que dibuja un único borde luminoso alrededor de la ventana activa. No oscurece el contenido, organiza ventanas ni se adjunta a las de otras aplicaciones.
 

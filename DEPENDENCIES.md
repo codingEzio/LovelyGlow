@@ -14,6 +14,18 @@ This repository uses Compact 0.1.1 and excludes the font binary.
 Run `python3 script/get_compact_font.py` to obtain the pinned official desktop
 release; the ZIP and TTF hashes are verified before atomic publication. A source
 compile does not require it, but default packaging refuses a missing or mismatched input.
+For a persistent local override, create the ignored `Local/font-input.json`:
+
+```json
+{"font":"Local/private/Compact.ttf","notices":"Local/private/notices"}
+```
+
+`font` is required; `notices` is optional. Relative paths use the checkout root.
+Missing config uses the pinned default; invalid config fails. The file is data,
+not shell code. Environment variables override this file: an explicit font
+starts with no notices unless the notices variable is also set; a notices-only
+variable overrides the configured font's notices. Empty values fail.
+
 An explicit `LOVELYGLOW_PRIVATE_FONT` file path overrides the pinned input for
 local packaging and development builds. CoreText validates the supplied file
 and the bundled copy; a missing or invalid explicit input fails. The override

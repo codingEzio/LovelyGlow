@@ -1,5 +1,6 @@
 """Exercise font selection without installing or launching the application."""
 import os
+import json
 from pathlib import Path
 import shutil
 import subprocess
@@ -15,7 +16,7 @@ class FontInputTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix='lovelyglow-font-test-')
         self.root = Path(self.temp.name)
         (self.root / 'script').mkdir()
-        for name in ('font_input.sh', 'validate_font.swift', 'validate_font_notices.py', 'get_compact_font.py'):
+        for name in ('font_input.sh', 'font_config.py', 'validate_font.swift', 'validate_font_notices.py', 'get_compact_font.py'):
             shutil.copy(ROOT / 'script' / name, self.root / 'script' / name)
         self.env = os.environ.copy()
         self.env.pop('LOVELYGLOW_PRIVATE_FONT', None)
@@ -71,6 +72,48 @@ class FontInputTests(unittest.TestCase):
         self.env['LOVELYGLOW_PRIVATE_FONT_NOTICES'] = str(notices)
         self.assertNotEqual(self.run_selection().returncode, 0)
         self.env.pop('LOVELYGLOW_PRIVATE_FONT')
+        self.assertNotEqual(self.run_selection('optional').returncode, 0)
+
+    @unittest.skipUnless(SYSTEM_FONT.is_file(), 'macOS test font unavailable')
+    def test_local_config_and_explicit_overrides(self):
+        local = self.root / 'Local'
+        local.mkdir()
+        configured = local / 'font.ttf'
+        configured.write_bytes(SYSTEM_FONT.read_bytes())
+        notices = local / 'notices'
+        notices.mkdir()
+        (notices / 'notice.txt').write_text('Synthetic notice')
+        (local / 'font-input.json').write_text(json.dumps({'font': 'Local/font.ttf', 'notices': 'Local/notices'}))
+        result = self.run_selection()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.root / 'output.ttf').read_bytes(), configured.read_bytes())
+        self.assertEqual((self.root / 'Licenses/PrivateFont/notice.txt').read_text(), 'Synthetic notice')
+        shutil.rmtree(self.root / 'Licenses')
+        # An explicit font must not inherit notices belonging to another font.
+        self.env['LOVELYGLOW_PRIVATE_FONT'] = str(configured)
+        result = self.run_selection()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('no notices were supplied', (self.root / 'Licenses/LOCAL-FONT.txt').read_text())
+        shutil.rmtree(self.root / 'Licenses')
+        self.env['LOVELYGLOW_PRIVATE_FONT_NOTICES'] = str(notices)
+        result = self.run_selection()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue((self.root / 'Licenses/PrivateFont/notice.txt').is_file())
+
+    def test_invalid_local_config_is_not_ignored(self):
+        local = self.root / 'Local'
+        local.mkdir()
+        config = local / 'font-input.json'
+        for content in ('{}', '{', '{"font":""}', '{"font":"a", "font":"b"}',
+                        '{"font":"a", "unknown":1}', '{"font":"a", "notices":null}'):
+            config.write_text(content)
+            self.assertNotEqual(self.run_selection('optional').returncode, 0)
+        marker = self.root / 'shell-executed'
+        config.write_text(json.dumps({'font': '$(touch ' + str(marker) + ')'}))
+        self.assertNotEqual(self.run_selection().returncode, 0)
+        self.assertFalse(marker.exists())
+        config.unlink()
+        config.symlink_to(local / 'missing')
         self.assertNotEqual(self.run_selection('optional').returncode, 0)
 
     def test_explicit_invalid_and_missing_inputs_fail(self):

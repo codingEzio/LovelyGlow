@@ -6,7 +6,7 @@
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
-선택 사항인 Pixel 글꼴은 DeparturePixelZh Compact 0.1.1을 사용하며 저장소에 포함되지 않습니다. 패키징 전에 `python3 script/get_compact_font.py`로 고정 버전을 다운로드하고 검증하세요. 자세한 내용은 [의존성](DEPENDENCIES.md)을 참조하세요. 로컬 글꼴을 쓰려면 빌드할 때 `LOVELYGLOW_PRIVATE_FONT`에 파일 경로를 지정하세요. 글꼴은 저장소 밖이나 무시되는 `Local/`에 보관하고 패키징 전에 검증합니다. 선택적으로 `LOVELYGLOW_PRIVATE_FONT_NOTICES`에 해당 고지 디렉터리를 지정하세요. 생략하면 패키지에 고지가 없다고 표시합니다.
+선택 사항인 Pixel 글꼴은 DeparturePixelZh Compact 0.1.1을 사용하며 저장소에 포함되지 않습니다. 패키징 전에 `python3 script/get_compact_font.py`로 고정 버전을 다운로드하고 검증하세요. 자세한 내용은 [의존성](DEPENDENCIES.md)을 참조하세요. 로컬 글꼴을 쓰려면 빌드할 때 `LOVELYGLOW_PRIVATE_FONT`에 파일 경로를 지정하세요. 글꼴은 저장소 밖이나 무시되는 `Local/`에 보관하고 패키징 전에 검증합니다. 선택적으로 `LOVELYGLOW_PRIVATE_FONT_NOTICES`에 해당 고지 디렉터리를 지정하세요. 생략하면 패키지에 고지가 없다고 표시합니다. 설정을 유지하려면 무시되는 `Local/font-input.json`을 사용하세요. [의존성](DEPENDENCIES.md)을 참조하세요.
 
 현재 활성 창에 하나의 빛나는 테두리를 그리는 macOS 네이티브 메뉴 막대 앱입니다. 내용을 어둡게 하거나 창을 배치하거나 다른 앱의 창에 붙지 않습니다.
 

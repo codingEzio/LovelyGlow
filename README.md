@@ -6,7 +6,7 @@
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
-The optional Pixel typeface uses DeparturePixelZh Compact 0.1.1. It is not included here. Run `python3 script/get_compact_font.py` to download and verify the pinned release before packaging. See [dependencies](DEPENDENCIES.md) for notices and scope. For a local font, set `LOVELYGLOW_PRIVATE_FONT` to its file path when building. Keep it outside the repository or under ignored `Local/`; it is validated before bundling; optionally set `LOVELYGLOW_PRIVATE_FONT_NOTICES` to a directory of its notices. If omitted, the bundle says no notices were supplied.
+The optional Pixel typeface uses DeparturePixelZh Compact 0.1.1. It is not included here. Run `python3 script/get_compact_font.py` to download and verify the pinned release before packaging. See [dependencies](DEPENDENCIES.md) for notices and scope. For a local font, set `LOVELYGLOW_PRIVATE_FONT` to its file path when building. Keep it outside the repository or under ignored `Local/`; it is validated before bundling; optionally set `LOVELYGLOW_PRIVATE_FONT_NOTICES` to a directory of its notices. If omitted, the bundle says no notices were supplied. For persistent selection, use the ignored `Local/font-input.json` described in [dependencies](DEPENDENCIES.md).
 
 A native macOS menu-bar accessory that draws one rim around the focused window.
 It uses SwiftUI, AppKit, Metal and window-system observations. It does not dim

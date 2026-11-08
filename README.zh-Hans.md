@@ -6,7 +6,7 @@
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
-可选 Pixel 字体使用 DeparturePixelZh Compact 0.1.1，仓库不包含字体。打包前运行 `python3 script/get_compact_font.py` 下载并校验固定版本。声明与范围见[依赖说明](DEPENDENCIES.md)。 如需本地字体，构建时将 `LOVELYGLOW_PRIVATE_FONT` 设为字体文件路径。请将字体保存在仓库外或被忽略的 `Local/` 中；打包前会校验字体，可将 `LOVELYGLOW_PRIVATE_FONT_NOTICES` 设为对应声明目录；未提供时，软件包会标明没有提供声明。
+可选 Pixel 字体使用 DeparturePixelZh Compact 0.1.1，仓库不包含字体。打包前运行 `python3 script/get_compact_font.py` 下载并校验固定版本。声明与范围见[依赖说明](DEPENDENCIES.md)。 如需本地字体，构建时将 `LOVELYGLOW_PRIVATE_FONT` 设为字体文件路径。请将字体保存在仓库外或被忽略的 `Local/` 中；打包前会校验字体，可将 `LOVELYGLOW_PRIVATE_FONT_NOTICES` 设为对应声明目录；未提供时，软件包会标明没有提供声明。 如需持久配置，请使用被忽略的 `Local/font-input.json`，见[依赖说明](DEPENDENCIES.md)。
 
 macOS 原生菜单栏工具，为当前活动窗口绘制一圈边光。它不遮暗内容、不排列窗口，也不会接管其他 App 的窗口。
 

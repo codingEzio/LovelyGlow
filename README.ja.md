@@ -6,7 +6,7 @@
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
-オプションの Pixel 書体には DeparturePixelZh Compact 0.1.1 を使用します。フォントは含まれていません。パッケージ前に `python3 script/get_compact_font.py` で固定版を取得・検証してください。詳細は [依存関係](DEPENDENCIES.md) を参照してください。 ローカルフォントを使う場合は、ビルド時に `LOVELYGLOW_PRIVATE_FONT` にファイルパスを指定します。ファイルはリポジトリ外か Git 管理外の `Local/` に置き、パッケージ化前に検証します。必要に応じて `LOVELYGLOW_PRIVATE_FONT_NOTICES` に通知ディレクトリを指定します。省略時は通知がないことをパッケージに記載します。
+オプションの Pixel 書体には DeparturePixelZh Compact 0.1.1 を使用します。フォントは含まれていません。パッケージ前に `python3 script/get_compact_font.py` で固定版を取得・検証してください。詳細は [依存関係](DEPENDENCIES.md) を参照してください。 ローカルフォントを使う場合は、ビルド時に `LOVELYGLOW_PRIVATE_FONT` にファイルパスを指定します。ファイルはリポジトリ外か Git 管理外の `Local/` に置き、パッケージ化前に検証します。必要に応じて `LOVELYGLOW_PRIVATE_FONT_NOTICES` に通知ディレクトリを指定します。省略時は通知がないことをパッケージに記載します。 継続して使うには Git 管理外の `Local/font-input.json` を設定します。詳細は[依存関係](DEPENDENCIES.md)を参照してください。
 
 現在のアクティブウインドウに一本の光の縁を描く macOS ネイティブのメニューバーアプリです。内容を暗くせず、ウインドウの整列や他のアプリへの取り付けもしません。
 
